@@ -2,7 +2,7 @@ import { all, get, run } from "../db/dbClient";
 import { CreateUserDto, PatchUserDto, UpdateUserDto, UserDto } from "../dto/user.dto";
 
 class UserRepository {
-    async getAll(query: any): Promise<UserDto[]> {
+    async getAll(query: any = {}): Promise<UserDto[]> {
         let sql = `SELECT id, name, email, createdAt FROM Users WHERE 1=1`;
         const params: any[] = [];
 
@@ -17,11 +17,11 @@ class UserRepository {
 
         sql += ` ORDER BY ${sort} ${order}`;
 
-        return all<UserDto>(sql, params);
+        return all(sql, params);
     }
 
     async getById(id: number): Promise<UserDto | undefined> {
-        return get<UserDto>(
+        return get(
             `SELECT id, name, email, createdAt FROM Users WHERE id = ?`,
             [id]
         );
@@ -61,11 +61,10 @@ class UserRepository {
         const updatedName = dto.name ?? current.name;
         const updatedEmail = dto.email ?? current.email;
 
-        await run(`UPDATE Users SET name = ?, email = ? WHERE id = ?`, [
-            updatedName,
-            updatedEmail,
-            id,
-        ]);
+        await run(
+            `UPDATE Users SET name = ?, email = ? WHERE id = ?`,
+            [updatedName, updatedEmail, id]
+        );
 
         return (await this.getById(id)) || null;
     }

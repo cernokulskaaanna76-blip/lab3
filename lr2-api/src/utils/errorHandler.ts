@@ -18,8 +18,8 @@ export function errorHandler(
     }
 
     const msg = String(err?.message || "");
-
-    if (msg.includes("UNIQUE constraint failed")) {
+    // 409 якщо порушено UNIQUE
+    if (msg.includes("UNIQUE constraint failed")) {//11
         return res.status(409).json({
             error: {
                 code: "UNIQUE_CONSTRAINT",
@@ -28,10 +28,10 @@ export function errorHandler(
             },
         });
     }
-
+//11
     if (
-        msg.includes("NOT NULL constraint failed") ||
-        msg.includes("CHECK constraint failed") ||
+        msg.includes("NOT NULL constraint failed") || // 400 якщо обов'язкове поле пусте
+        msg.includes("CHECK constraint failed") || // 400 якщо не пройшов CHECK
         msg.includes("FOREIGN KEY constraint failed")
     ) {
         return res.status(400).json({

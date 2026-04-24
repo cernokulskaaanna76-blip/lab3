@@ -17,7 +17,7 @@ const app = express();
 
 app.use(helmet());
 app.use(cors());
-app.use(morgan("dev")); // логування всіх HTTP-запитів 
+app.use(morgan("dev")); //5добре. логування всіх HTTP-запитів 
 app.use(express.json());
 
 const frontendPath = path.join(__dirname, "../../lab_1");
@@ -62,6 +62,6 @@ app.use((_req, _res, next) => {
     next(ApiError.notFound("Route not found"));
 });
 
-app.use(errorHandler); // підключення глобального обробника помилок
+app.use(errorHandler); //4.добре. підключення глобального обробника помилок
 
 export default app;

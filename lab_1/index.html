@@ -11,7 +11,6 @@
 </head>
 
 <body>
-
     <div class="container">
 
         <header>
@@ -33,9 +32,8 @@
                     <label for="timeSlotSelect">Часовий проміжок</label>
                     <select id="timeSlotSelect">
                         <option value="">Оберіть</option>
-                        <option value="Morning">Ранок (08:00–12:00)</option>
-                        <option value="Day">День (12:00–16:00)</option>
-                        <option value="Evening">Вечір (16:00–20:00)</option>
+                        <option value="day">День (08:00–20:00)</option>
+                        <option value="night">Ніч (20:00–08:00)</option>
                     </select>
                     <p class="error-text" id="timeSlotError"></p>
                 </div>
@@ -56,9 +54,9 @@
                     <label for="statusSelect">Статус</label>
                     <select id="statusSelect">
                         <option value="">Оберіть</option>
-                        <option value="Planned">Заплановано</option>
-                        <option value="Confirmed">Підтверджено</option>
-                        <option value="Cancelled">Скасовано</option>
+                        <option value="planned">Заплановано</option>
+                        <option value="done">Підтверджено</option>
+                        <option value="cancelled">Скасовано</option>
                     </select>
                     <p class="error-text" id="statusError"></p>
                 </div>
@@ -67,26 +65,26 @@
                     <button type="submit">Додати</button>
                     <button type="button" id="resetBtn">Очистити</button>
                 </div>
+
                 <p id="successMessage"></p>
 
             </form>
         </section>
 
         <section>
-
             <h2>Список змін</h2>
 
             <div class="filter">
                 <label for="filterStatus">Фільтр по статусу:</label>
                 <select id="filterStatus">
                     <option value="">Усі статуси</option>
-                    <option value="Planned">Заплановано</option>
-                    <option value="Confirmed">Підтверджено</option>
-                    <option value="Cancelled">Скасовано</option>
+                    <option value="planned">Заплановано</option>
+                    <option value="done">Підтверджено</option>
+                    <option value="cancelled">Скасовано</option>
                 </select>
             </div>
 
-            <button id="sortDate">Сортувати по даті</button>
+            <button id="sortDate" type="button">Сортувати по даті</button>
 
             <table>
                 <thead>
@@ -100,9 +98,9 @@
                         <th>Дії</th>
                     </tr>
                 </thead>
+
                 <tbody id="tableBody"></tbody>
             </table>
-
         </section>
 
     </div>

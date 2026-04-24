@@ -66,6 +66,6 @@ async function seed() {
 }
 
 seed().catch((err) => {
-  logger.error(`Seed failed: ${String(err)}`);
+  logger.error(`Seed failed: ${String(err)}`); //5добре.
   process.exit(1);
 });

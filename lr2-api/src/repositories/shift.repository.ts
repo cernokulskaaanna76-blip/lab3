@@ -10,7 +10,7 @@ class ShiftRepository {
         let sql = `SELECT * FROM Shifts WHERE 1=1`;
         const params: any[] = [];
 
-        if (query.status) {
+        if (query.status) { //9
             sql += ` AND status = ?`;
             params.push(query.status);
         }
@@ -30,7 +30,7 @@ class ShiftRepository {
         return all(sql, params);
     }
 
-    // JOIN
+    // JOIN 8доб
     async getAllWithUsers() {
         const sql = `
             SELECT s.*, u.name as userName, sc.title as scheduleTitle
@@ -68,8 +68,8 @@ class ShiftRepository {
 
     async create(dto: CreateShiftDto) {
         const result = await run(
-            `INSERT INTO Shifts (scheduleId, userId, date, type, status, comment)
-             VALUES (?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO Shifts (scheduleId, userId, date, type, status, comment, createdAt)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
             [
                 dto.scheduleId,
                 dto.userId,
@@ -77,6 +77,7 @@ class ShiftRepository {
                 dto.type,
                 dto.status,
                 dto.comment ?? null,
+                new Date().toISOString() //  ДОДАНО createdAt
             ]
         );
 

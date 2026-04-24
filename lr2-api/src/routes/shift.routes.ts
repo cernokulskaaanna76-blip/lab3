@@ -6,7 +6,7 @@ const router = Router();
 // отримати всі shifts
 router.get("/", shiftController.getAll);
 
-// GET shift + user + schedule, endpoint із JOIN, який повертає зв’язані дані з кількох таблиць
+// 8доб. GET shift + user + schedule, endpoint із JOIN, який повертає зв’язані дані з кількох таблиць
 router.get("/with-users", shiftController.getAllWithUsers);
 
 // GET небезпечний пошук (SQL injection demo)
