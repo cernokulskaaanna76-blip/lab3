@@ -9,47 +9,42 @@ export function errorHandler(
 ) {
     if (err instanceof ApiError) {
         return res.status(err.status).json({
-            error: {
-                code: err.code,
-                message: err.message,
-                details: err.details,
-            },
+            status: err.status,
+            title: err.code,
+            detail: err.message,
+            errors: err.details || null
         });
     }
 
     const msg = String(err?.message || "");
+
     // 409 якщо порушено UNIQUE
-    if (msg.includes("UNIQUE constraint failed")) {//11
+    if (msg.includes("UNIQUE constraint failed")) {
         return res.status(409).json({
-            error: {
-                code: "UNIQUE_CONSTRAINT",
-                message: "Unique constraint violation",
-                details: msg,
-            },
+            status: 409,
+            title: "UNIQUE_CONSTRAINT",
+            detail: "Unique constraint violation"
         });
     }
-//11
+
+    // 400 якщо обмеження БД
     if (
-        msg.includes("NOT NULL constraint failed") || // 400 якщо обов'язкове поле пусте
-        msg.includes("CHECK constraint failed") || // 400 якщо не пройшов CHECK
+        msg.includes("NOT NULL constraint failed") ||
+        msg.includes("CHECK constraint failed") ||
         msg.includes("FOREIGN KEY constraint failed")
     ) {
         return res.status(400).json({
-            error: {
-                code: "DB_CONSTRAINT_ERROR",
-                message: "Database constraint error",
-                details: msg,
-            },
+            status: 400,
+            title: "DB_CONSTRAINT_ERROR",
+            detail: msg
         });
     }
 
     console.error(err);
 
     return res.status(500).json({
-        error: {
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Internal server error",
-            details: msg || null,
-        },
+        status: 500,
+        title: "INTERNAL_SERVER_ERROR",
+        detail: msg || "Internal server error"
     });
 }

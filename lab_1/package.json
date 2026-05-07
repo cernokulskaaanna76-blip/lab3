@@ -1,0 +1,19 @@
+{
+  "name": "lab_1",
+  "version": "1.0.0",
+  "description": "Frontend integration with backend API",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vite": "^5.4.19"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

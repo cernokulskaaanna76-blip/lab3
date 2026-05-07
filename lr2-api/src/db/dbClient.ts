@@ -29,18 +29,19 @@ export const run = (sql: string, params: any[] = []) =>
         });
     });
 
-export const get = (sql: string, params: any[] = []) =>
-    new Promise<any>((resolve, reject) => {
+export const get = <T>(sql: string, params: unknown[] = []) =>
+    new Promise<T>((resolve, reject) => {
         db.get(sql, params, (err, row) => {
             if (err) reject(err);
-            else resolve(row);
+            else resolve(row as T);
         });
     });
 
-export const all = (sql: string, params: any[] = []) =>
-    new Promise<any[]>((resolve, reject) => {
+export function all<T>(sql: string, params: unknown[] = []) : Promise<T[]> {
+    return new Promise<T[]>((resolve, reject) => {
         db.all(sql, params, (err, rows) => {
             if (err) reject(err);
-            else resolve(rows);
+            else resolve(rows as T[]);
         });
     });
+}

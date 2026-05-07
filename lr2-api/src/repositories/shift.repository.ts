@@ -104,7 +104,8 @@ class ShiftRepository {
     }
 
     async patch(id: number, dto: PatchShiftDto) {
-        const current = await this.getById(id);
+        const current: any =
+            await this.getById(id);
         if (!current) return null;
 
         await run(

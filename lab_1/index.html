@@ -1,109 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="uk">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ЛР1 – Сервіс чергувань (Варіант 11)</title>
-
-    <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сервіс чергувань</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./app.ts"></script>
 </head>
 
 <body>
+
+    <nav class="navbar">
+        <div class="logo">Сервіс чергувань</div>
+
+        <div class="nav-links">
+            <a href="#formBlock">Додати</a>
+            <a href="#listBlock">Список</a>
+        </div>
+    </nav>
+
     <div class="container">
 
-        <header>
-            <h1>Сервіс чергувань у лабораторії (Варіант 11)</h1>
-        </header>
+        <section id="formBlock" class="card">
 
-        <section>
-            <h2>Додати зміну</h2>
+            <h1>Додати зміну</h1>
 
             <form id="shiftForm">
 
                 <div class="field">
-                    <label for="dateInput">Дата</label>
-                    <input type="date" id="dateInput" />
-                    <p class="error-text" id="dateError"></p>
+                    <label>Дата</label>
+                    <input type="date" id="dateInput">
                 </div>
 
                 <div class="field">
-                    <label for="timeSlotSelect">Часовий проміжок</label>
+                    <label>Тип зміни</label>
                     <select id="timeSlotSelect">
                         <option value="">Оберіть</option>
-                        <option value="day">День (08:00–20:00)</option>
-                        <option value="night">Ніч (20:00–08:00)</option>
+                        <option value="day">День</option>
+                        <option value="night">Ніч</option>
                     </select>
-                    <p class="error-text" id="timeSlotError"></p>
                 </div>
 
                 <div class="field">
-                    <label for="userInput">Ім'я користувача</label>
-                    <input type="text" id="userInput" />
-                    <p class="error-text" id="userError"></p>
+                    <label>Користувач</label>
+                    <select id="userInput"></select>
                 </div>
 
                 <div class="field">
-                    <label for="commentInput">Коментар</label>
-                    <textarea id="commentInput" rows="3"></textarea>
-                    <p class="error-text" id="commentError"></p>
+                    <label>Графік</label>
+                    <select id="scheduleSelect"></select>
                 </div>
 
                 <div class="field">
-                    <label for="statusSelect">Статус</label>
+                    <label>Коментар</label>
+                    <textarea id="commentInput"></textarea>
+                </div>
+
+                <div class="field">
+                    <label>Статус</label>
                     <select id="statusSelect">
-                        <option value="">Оберіть</option>
-                        <option value="planned">Заплановано</option>
-                        <option value="done">Підтверджено</option>
-                        <option value="cancelled">Скасовано</option>
+                    <option value="">
+                        Оберіть
+                    </option>
+                    
+                    <option value="planned">
+                        Заплановано
+                    </option>
+                    
+                    <option value="done">
+                        Підтверджено
+                    </option>
+                    
+                    <option value="cancelled">
+                        Скасовано
+                    </option>
                     </select>
-                    <p class="error-text" id="statusError"></p>
                 </div>
 
                 <div class="buttons">
-                    <button type="submit">Додати</button>
+                    <button type="submit">Зберегти</button>
                     <button type="button" id="resetBtn">Очистити</button>
                 </div>
 
-                <p id="successMessage"></p>
+                <div id="successMessage"></div>
 
             </form>
         </section>
 
-        <section>
-            <h2>Список змін</h2>
+        <section id="listBlock" class="card">
 
-            <div class="filter">
-                <label for="filterStatus">Фільтр по статусу:</label>
+            <h1>Список змін</h1>
+
+            <div class="field">
+                <label>Фільтр по статусу</label>
                 <select id="filterStatus">
-                    <option value="">Усі статуси</option>
+                    <option value="">Усі</option>
                     <option value="planned">Заплановано</option>
-                    <option value="done">Підтверджено</option>
+                    <option value="done">Виконано</option>
                     <option value="cancelled">Скасовано</option>
                 </select>
             </div>
 
-            <button id="sortDate" type="button">Сортувати по даті</button>
+            <button id="sortDate">Сортувати по даті</button>
 
             <table>
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Дата</th>
-                        <th>Час</th>
+                        <th>Тип</th>
                         <th>Користувач</th>
                         <th>Статус</th>
-                        <th>Коментар</th>
                         <th>Дії</th>
                     </tr>
                 </thead>
 
                 <tbody id="tableBody"></tbody>
             </table>
+
         </section>
 
     </div>
+
 </body>
 
 </html>

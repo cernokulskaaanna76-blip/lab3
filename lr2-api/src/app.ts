@@ -1,67 +1,49 @@
 import express from "express";
-import path from "path";
 import cors from "cors";
-import helmet from "helmet";
-import morgan from "morgan";
 
 import userRoutes from "./routes/user.routes";
 import scheduleRoutes from "./routes/schedule.routes";
 import shiftRoutes from "./routes/shift.routes";
 import swapRoutes from "./routes/swap.routes";
 
-import { ApiError } from "./utils/ApiError";
 import { errorHandler } from "./utils/errorHandler";
-import { all } from "./db/dbClient";
 
 const app = express();
 
-app.use(helmet());
-app.use(cors());
-app.use(morgan("dev")); //5добре. логування всіх HTTP-запитів 
+// дозволяє читати JSON body
 app.use(express.json());
 
-const frontendPath = path.join(__dirname, "../../lab_1");
-app.use(express.static(frontendPath));
+// CORS для frontend
+app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:5174",
+        "http://127.0.0.1:5174",
+        "http://localhost:5500",
+        "http://127.0.0.1:5500"
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type"]
+}));
 
-app.get("/health", (_req, res) => {
-    res.status(200).json({ ok: true });
-});
+// preflight OPTIONS
+app.options("*", cors());
 
-// тимчасовий debug endpoint для перевірки міграцій
-app.get("/api/debug/migrations", async (_req, res) => {
-    try {
-        const rows = await all(`
-            SELECT id, name, appliedAt
-            FROM schema_migrations
-            ORDER BY id ASC
-        `);
+// routes API v1
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/schedules", scheduleRoutes);
+app.use("/api/v1/shifts", shiftRoutes);
+app.use("/api/v1/swaps", swapRoutes);
 
-        res.status(200).json({
-            items: rows,
-            meta: { total: rows.length },
-        });
-    } catch (error: any) {
-        res.status(500).json({
-            error: {
-                message: error?.message || "Debug query failed",
-            },
-        });
-    }
-});
-
-app.use("/api/users", userRoutes);
-app.use("/api/schedules", scheduleRoutes);
-app.use("/api/shifts", shiftRoutes);
-app.use("/api/swaps", swapRoutes);
-
+// тестовий маршрут
 app.get("/", (_req, res) => {
-    res.sendFile(path.join(frontendPath, "index.html"));
+    res.json({
+        message: "API працює"
+    });
 });
 
-app.use((_req, _res, next) => {
-    next(ApiError.notFound("Route not found"));
-});
-
-app.use(errorHandler); //4.добре. підключення глобального обробника помилок
+// централізована обробка помилок
+app.use(errorHandler);
 
 export default app;

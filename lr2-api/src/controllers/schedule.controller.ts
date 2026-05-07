@@ -8,7 +8,7 @@ import {
 } from "../validators/schedule.validator";
 
 class ScheduleController {
-    getAll = async (req: Request, res: Response, next: NextFunction) => {
+     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await scheduleService.getAll(req.query);
             res.status(200).json({ items: result });
@@ -17,7 +17,7 @@ class ScheduleController {
         }
     };
 
-    getById = async (req: Request, res: Response, next: NextFunction) => {
+    async getById(req: Request, res: Response, next: NextFunction) {
         try {
             const id = Number(req.params.id);
 
@@ -39,7 +39,7 @@ class ScheduleController {
         }
     };
 
-    create = async (req: Request, res: Response, next: NextFunction) => {
+    async create (req: Request, res: Response, next: NextFunction) {
         try {
             const errors = validateCreateSchedule(req.body);
 
@@ -54,7 +54,7 @@ class ScheduleController {
         }
     };
 
-    update = async (req: Request, res: Response, next: NextFunction) => {
+    async update (req: Request, res: Response, next: NextFunction) {
         try {
             const id = Number(req.params.id);
 
@@ -82,7 +82,7 @@ class ScheduleController {
         }
     };
 
-    patch = async (req: Request, res: Response, next: NextFunction) => {
+    async patch (req: Request, res: Response, next: NextFunction) {
         try {
             const id = Number(req.params.id);
 
@@ -110,7 +110,7 @@ class ScheduleController {
         }
     };
 
-    delete = async (req: Request, res: Response, next: NextFunction) => {
+    async delete(req: Request, res: Response, next: NextFunction) {
         try {
             const id = Number(req.params.id);
 
